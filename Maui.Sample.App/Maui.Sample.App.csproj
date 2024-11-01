@@ -62,4 +62,5 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
 	</ItemGroup>
 
+	<Import Project="$(MSBuildProjectDirectory)\eng\Sign.Binary.targets" />
 </Project>
