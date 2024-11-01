@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "sign": {
+      "version": "0.9.1-beta.24529.1",
+      "commands": [
+        "sign"
+      ],
+      "rollForward": false
+    }
+  }
+}
