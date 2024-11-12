@@ -1,0 +1,26 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <UnsignedFilesList>$(IntermediateOutputPath)UnsignedFiles.txt</UnsignedFilesList>
+        
+        <BinaryCertificateThumbprint>D559E3692508C1443A21F13C59C47C1471F7833171F58176258DF51171199A00</BinaryCertificateThumbprint>
+        <PublishDir>bin/Release/net8.0-windows10.0.19041.0/win10-x64/publish</PublishDir>
+
+        <_GenerateUnsignedListScriptPath>$(MSBuildThisFileDirectory)generate-unsigned-list.csx</_GenerateUnsignedListScriptPath>
+        <_UnsignedFilesParam>-fl $(UnsignedFilesList)</_UnsignedFilesParam>
+        <_SignCodePart>certificate-store -cfp $(BinaryCertificateThumbprint) -v Debug</_SignCodePart>
+    </PropertyGroup>
+
+    <Target Name="SignBinaries" AfterTargets="Publish">
+        <Message Text="dotnet dotnet-script $(_GenerateUnsignedListScriptPath) -- $(PublishDir) $(UnsignedFilesList)" Importance="high"/>
+        <Exec Command="dotnet dotnet-script $(_GenerateUnsignedListScriptPath) -- $(PublishDir) $(UnsignedFilesList)" />
+        
+        <Message Text="dotnet sign code $(_SignCodePart) $(_UnsignedFilesParam) $(PublishDir)**/*" Importance="high"/>
+        <Exec Command="dotnet sign code $(_SignCodePart) $(_UnsignedFilesParam) $(PublishDir)**/*" /> 
+        
+        <PropertyGroup>
+            <GenerateMsixAfterTarget>SignBinaries</GenerateMsixAfterTarget>
+        </PropertyGroup> 
+        
+    </Target>
+
+</Project>  
